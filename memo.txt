@@ -20,6 +20,7 @@
         onClick={onClickAdd}
       />
 
+・A && B 左辺がtrueのときに右辺を返す　（Bをかえします）
 
 
 私のにがてなところ
