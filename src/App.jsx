@@ -7,10 +7,27 @@ export const App = () => {
   const [incompleteTodos, setIncompleteTodos] = useState(["aaaa", "iiiii"]);
   const [completeTodos, setCompleteTodos] = useState(["uuuu"]);
   const onChangeTodoText = (event) => setTodoText(event.target.value);
+
   const onClickAdd = () => {
-    const newtodos = [...incompleteTodos, todoText];
-    return alert("Add");
+    const newTodos = [...incompleteTodos, todoText];
+    setIncompleteTodos(newTodos);
+    setTodoText("");
   };
+
+  const onClickDelite = (index) => {
+    const newTodos = [...incompleteTodos]; //未完了のリストを取得
+    newTodos.splice(index, 1);
+    setIncompleteTodos(newTodos);
+  };
+
+  const onClickComplete = (index) => {
+    const newIncompleteTodos = [...incompleteTodos]; //未完了のリストを取得
+    newIncompleteTodos.splice(index, 1);
+    const newCompleteTodos = [...completeTodos, incompleteTodos[index]];
+    setIncompleteTodos(newIncompleteTodos);
+    setCompleteTodos(newCompleteTodos);
+  };
+
   return (
     <>
       <div className="input-area">
@@ -20,19 +37,19 @@ export const App = () => {
           value={todoText}
           onChange={onChangeTodoText}
         />
-        <button onChange={onClickAdd} id="add-button">
+        <button onClick={onClickAdd} id="add-button">
           追加
         </button>
       </div>
       <div className="incomplete-area">
         <p className="title">未完了のTODO</p>
         <ul id="incomplete-list">
-          {incompleteTodos.map((todo) => {
+          {incompleteTodos.map((todo, index) => {
             return (
               <div key={todo} className="list-row">
                 <li>{todo}</li>
-                <button onClick={onClickAdd}>完了</button>
-                <button>削除</button>
+                <button onClick={() => onClickComplete(index)}>完了</button>
+                <button onClick={() => onClickDelite(index)}>削除</button>
               </div>
             );
           })}
